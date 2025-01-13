@@ -1,10 +1,9 @@
 import { Cell, TerrainType, Position, HoleConfig } from '../types';
-import { isSamePosition } from './movement';
 
 const createObstacle = (
   startX: number,
   startY: number,
-  type: TerrainType,
+  //type: TerrainType,
   size: number,
   gridWidth: number,
   gridHeight: number
@@ -63,9 +62,9 @@ export const HOLE_CONFIGURATIONS: HoleConfig[] = Array.from({ length: 18 }, (_, 
       y: isLongHole ? 1 : 2
     },
     obstacles: [
-      { type: 'tree', size: obstacleSize },
-      { type: 'water', size: obstacleSize - 1 },
-      { type: 'sand', size: obstacleSize }
+      { type: 'tree' as TerrainType, size: obstacleSize },
+      { type: 'water' as TerrainType, size: obstacleSize - 1 },
+      { type: 'sand' as TerrainType, size: obstacleSize }
     ].slice(0, obstacleCount),
     par: isLongHole ? 5 : 4
   };
@@ -76,7 +75,7 @@ HOLE_CONFIGURATIONS[0] = {
   teePosition: { x: 4, y: 10 },
   flagPosition: { x: 4, y: 2 },
   obstacles: [
-    { type: 'sand', size: 3 }
+    { type: 'sand' as TerrainType, size: 3 }
   ],
   par: 3
 };
@@ -85,8 +84,8 @@ HOLE_CONFIGURATIONS[1] = {
   teePosition: { x: 2, y: 10 },
   flagPosition: { x: 6, y: 2 },
   obstacles: [
-    { type: 'water', size: 3 },
-    { type: 'sand', size: 3 }
+    { type: 'water' as TerrainType, size: 3 },
+    { type: 'sand' as TerrainType, size: 3 }
   ],
   par: 3
 };
@@ -95,8 +94,8 @@ HOLE_CONFIGURATIONS[2] = {
   teePosition: { x: 1, y: 10 },
   flagPosition: { x: 7, y: 2 },
   obstacles: [
-    { type: 'tree', size: 3 },
-    { type: 'sand', size: 4 }
+    { type: 'tree' as TerrainType, size: 3 },
+    { type: 'sand' as TerrainType, size: 4 }
   ],
   par: 4
 };
@@ -135,7 +134,8 @@ export const generateCourse = (
       const startX = Math.floor(Math.random() * width);
       const startY = Math.floor(Math.random() * (height - 4)) + 2;
 
-      obstaclePositions = createObstacle(startX, startY, obstacle.type, obstacle.size, width, height);
+      // obstaclePositions = createObstacle(startX, startY, obstacle.type, obstacle.size, width, height);
+      obstaclePositions = createObstacle(startX, startY, obstacle.size, width, height);
       
       // Check if obstacle overlaps with tee, green, or path between them
       const overlapsImportantAreas = obstaclePositions.some(pos => {
