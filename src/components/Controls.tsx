@@ -15,7 +15,9 @@ export const Controls: React.FC<ControlsProps> = ({ onRoll, lastRoll, canAddOne,
         <div>
           <p>You rolled: {lastRoll}</p>
           {canAddOne && (
-            <button onClick={onAddOne}>Add +1 to roll</button>
+            <div> 
+              <button onClick={onAddOne}>Add +1 to roll</button>
+            </div>
           )}
         </div>
       )}
