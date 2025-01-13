@@ -147,8 +147,6 @@ const App: React.FC = () => {
   return (
     <div style={{ padding: '20px' }}>
       <div style={{ marginBottom: '20px' }}>
-        <img src="/logo.png" alt="Paper Golf Logo" className="logo"/>
-
         <h1 style={{ margin: '0 0 10px 0' }}>Paper Golf - Hole {gameState.currentHole + 1}</h1>
         <div style={{ 
           display: 'flex', 
