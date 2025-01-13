@@ -41,3 +41,11 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+.logo {
+  height: 120px;
+  width: 120px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  border-radius: 50%;
+}
