@@ -4,7 +4,7 @@ import { Controls } from './components/Controls';
 import { ScoreCard } from './components/ScoreCard';
 import { Cell, GameState, Position } from './types';
 import { calculatePossibleMoves } from './utils/movement';
-import { generateCourse, isPathClear, isNearFlag, HOLE_CONFIGURATIONS } from './utils/terrain';
+import { generateCourse, isPathClear, isNearFlag, HOLE_CONFIGURATIONS, isGimmieRange } from './utils/terrain';
 
 const GRID_WIDTH = 8;
 const GRID_HEIGHT = 12;
@@ -107,7 +107,12 @@ const App: React.FC = () => {
 
   const handleCellClick = (position: Position) => {
     setGameState(prev => {
-      const newStrokes = prev.strokes + 1;
+      let newStrokes = prev.strokes + 1;
+
+      if (isGimmieRange(position, currentHoleConfig.flagPosition)) {
+        newStrokes += 1;
+      }
+
       const newState = {
         ...prev,
         ballPosition: position,

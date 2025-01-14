@@ -192,6 +192,13 @@ export const isPathClear = (
   return true;
 };
 
+export const isGimmieRange = (ballPos: Position, flagPos: Position): boolean => {
+  const dx = Math.abs(ballPos.x - flagPos.x);
+  const dy = Math.abs(ballPos.y - flagPos.y);
+  return dx <= 1 && dy <= 1;
+};
+
+
 export const isNearFlag = (ballPos: Position, flagPos: Position): boolean => {
   const dx = Math.abs(ballPos.x - flagPos.x);
   const dy = Math.abs(ballPos.y - flagPos.y);
