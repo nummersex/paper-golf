@@ -22,7 +22,7 @@ const createInitialState = (): GameState => ({
 
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>(createInitialState());
-  const [cells, setCells] = useState<Cell[]>(() => 
+  const [cells, setCells] = useState<Cell[]>(() =>
     generateCourse(GRID_WIDTH, GRID_HEIGHT, 0)
   );
 
@@ -55,11 +55,11 @@ const App: React.FC = () => {
 
     const roll = Math.floor(Math.random() * 6) + 1;
     setGameState(prev => {
-      const currentCell = cells.find(c => 
-        c.position.x === prev.ballPosition.x && 
+      const currentCell = cells.find(c =>
+        c.position.x === prev.ballPosition.x &&
         c.position.y === prev.ballPosition.y
       );
-      
+
       let possibleMoves = calculatePossibleMoves(
         prev.ballPosition,
         roll,
@@ -67,14 +67,14 @@ const App: React.FC = () => {
         GRID_HEIGHT
       );
 
-      possibleMoves = possibleMoves.filter(move => 
+      possibleMoves = possibleMoves.filter(move =>
         isPathClear(prev.ballPosition, move, cells, GRID_WIDTH)
       );
 
       return {
         ...prev,
         lastRoll: roll,
-        canAddOne: currentCell ? ['tee', 'grass'].includes(currentCell.type) : false,
+        canAddOne: currentCell ? ['tee'].includes(currentCell.type) : false,
         possibleMoves
       };
     });
@@ -91,7 +91,7 @@ const App: React.FC = () => {
           GRID_HEIGHT
         );
 
-        possibleMoves = possibleMoves.filter(move => 
+        possibleMoves = possibleMoves.filter(move =>
           isPathClear(prev.ballPosition, move, cells, GRID_WIDTH)
         );
 
@@ -148,9 +148,9 @@ const App: React.FC = () => {
     <div style={{ padding: '20px' }}>
       <div style={{ marginBottom: '20px' }}>
         <h1 style={{ margin: '0 0 10px 0' }}>Paper Golf - Hole {gameState.currentHole + 1}</h1>
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
           gap: '20px',
           fontSize: '1.2em'
         }}>
@@ -161,14 +161,39 @@ const App: React.FC = () => {
 
       {gameState.isComplete && (
         <div style={{ marginBottom: '20px' }}>
-          <div style={{ 
-            color: 'green', 
-            fontWeight: 'bold', 
-            marginBottom: '10px' 
+          <div style={{
+            color: 'green',
+            fontWeight: 'bold',
+            marginBottom: '10px'
           }}>
             Hole Complete! Strokes taken: {gameState.strokes}
           </div>
-          <button 
+          </div>
+      )}
+
+
+      <Grid
+        cells={cells}
+        ballPosition={gameState.ballPosition}
+        flagPosition={currentHoleConfig.flagPosition}
+        width={GRID_WIDTH}
+        height={GRID_HEIGHT}
+        possibleMoves={gameState.possibleMoves}
+        onCellClick={handleCellClick}
+      />
+      {!gameState.isComplete && (
+        <Controls
+          onRoll={rollDice}
+          lastRoll={gameState.lastRoll}
+          canAddOne={gameState.canAddOne}
+          onAddOne={addOne}
+        />
+        )
+      }
+
+      {gameState.isComplete && (
+        <div style={{ marginBottom: '20px' }}>
+          <button
             onClick={startNextHole}
             style={{
               backgroundColor: '#4CAF50',
@@ -184,23 +209,6 @@ const App: React.FC = () => {
           </button>
         </div>
       )}
-
-      <Grid
-        cells={cells}
-        ballPosition={gameState.ballPosition}
-        flagPosition={currentHoleConfig.flagPosition}
-        width={GRID_WIDTH}
-        height={GRID_HEIGHT}
-        possibleMoves={gameState.possibleMoves}
-        onCellClick={handleCellClick}
-      />
-
-      <Controls
-        onRoll={rollDice}
-        lastRoll={gameState.lastRoll}
-        canAddOne={gameState.canAddOne}
-        onAddOne={addOne}
-      />
     </div>
   );
 };
